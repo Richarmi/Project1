@@ -230,6 +230,7 @@ $(() => {
   }
 
   //initialize chewie, the porgs, and the equipment items
+
   const porgLevels = [3, 7, 9, 11];
   const neededItems = [5, 5, 10, 15];
   const requiredItems = [2, 4, 6, 6];
@@ -533,13 +534,16 @@ $(() => {
                 $('.game-board').hide();
                 gameEnded = true;
 
-                //$('.porg-havoc').css('visibility',  'visible');
+                $('.porg-havoc').css('visibility',  'visible');
 
-                $(document).append(`<div class="porg-havoc">
-                  <iframe title='YouTube video player' type=\"text/html\" width='640'
-                  height='390' src='img/Porg-Havoc.mp4'
-                  frameborder='0' allowFullScreen>
-                  </iframe></div>`);
+                // $('.porg-havoc').play();
+                $('.porg-havoc').get(0).play();
+
+                // $(document).append(`<div class="porg-havoc">
+                //   <iframe title='YouTube video player' type=\"text/html\" width='640'
+                //   height='390' src='img/Porg-Havoc.mp4'
+                //   frameborder='0' allowFullScreen>
+                //   </iframe></div>`);
 
                 // $('.lose-message').css('visibility', 'visible');
 

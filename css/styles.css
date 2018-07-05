@@ -31,9 +31,12 @@ section {
   text-align: center;
 }
 
-/* .porg-havoc {
-  visibility: visible;
-} */
+.porg-havoc {
+  visibility: hidden;
+  text-align: center;
+  margin-left: 25%;
+
+}
 
 .score-board,
 .level,
