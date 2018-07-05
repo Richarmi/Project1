@@ -533,7 +533,16 @@ $(() => {
                 $('.game-board').hide();
                 gameEnded = true;
 
-                $('.lose-message').show();
+                //$('.porg-havoc').css('visibility',  'visible');
+
+                $(document).append(`<div class="porg-havoc">
+                  <iframe title='YouTube video player' type=\"text/html\" width='640'
+                  height='390' src='img/Porg-Havoc.mp4'
+                  frameborder='0' allowFullScreen>
+                  </iframe></div>`);
+
+                // $('.lose-message').css('visibility', 'visible');
+
               } // End of itemsRuined if statement
 
             } // End of porg/item coordinate comparison
