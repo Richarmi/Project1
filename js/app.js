@@ -52,7 +52,7 @@ class Chewie {
 
   deleteChewie()
   {
-    $(`.gameboard${this.xCoordinate}-${this.yCoordinate}`).addClass('chewie');
+    $(`.gameboard${this.xCoordinate}-${this.yCoordinate}`).removeClass('chewie');
 
     this.xCoordinate = 0;
     this.yCoordinate = 0;
@@ -156,7 +156,7 @@ class EquipmentItem {
                   'item2',
                   'item3'];
 
-    this.hp = 20;
+    this.hp = 10;
     this.isDestroyed = false;
     this.isRetrieved = false;
     this.xCoordinate = Math.floor(Math.random() * 10);
@@ -186,15 +186,16 @@ class EquipmentItem {
 
   deleteEquipItem()
   {
+    $(`.gameboard${this.xCoordinate}-${this.yCoordinate}`).removeClass('item1');
+    $(`.gameboard${this.xCoordinate}-${this.yCoordinate}`).removeClass('item2');
+    $(`.gameboard${this.xCoordinate}-${this.yCoordinate}`).removeClass('item3');
+    $(`.gameboard${this.xCoordinate}-${this.yCoordinate}`).removeClass('equipment-item');
+
     this.hp = 0;
     this.xCoordinate = 0;
     this.yCoordinate = 0;
     this.isDestroyed = true;
     this.isRetrieved = false;
-    $(`.gameboard${this.xCoordinate}-${this.yCoordinate}`).removeClass('item1');
-    $(`.gameboard${this.xCoordinate}-${this.yCoordinate}`).removeClass('item2');
-    $(`.gameboard${this.xCoordinate}-${this.yCoordinate}`).removeClass('item3');
-    $(`.gameboard${this.xCoordinate}-${this.yCoordinate}`).removeClass('equipment-item');
   }
 }
 
@@ -231,10 +232,16 @@ $(() => {
 
   //initialize chewie, the porgs, and the equipment items
 
-  const porgLevels = [3, 7, 9, 11];
+
+  const porgLevels =    [3, 5, 7, 3, 10, 10];
+  const femPorgLevels = [0, 0, 0, 0, 1, 3];
+  const porgletLevels = [0, 0, 0, 3, 0, 0];
+
   const neededItems = [5, 5, 10, 15];
   const requiredItems = [2, 4, 6, 6];
   let porgs = [];
+  let fem_porgs = [];
+  let porglets = [];
   let equipItems = [];
 
   let level = 0;
@@ -295,6 +302,7 @@ $(() => {
       }
       else if(e.which == 32 && gameEnded === false) // Chewie roars at the porgs
       {
+        document.getElementById("yes-audio").play();
         console.log("RRRROOOOOAAAARRRR!!!");
 
         // delete any nearby porgs that Chewie roars at
@@ -375,8 +383,6 @@ $(() => {
              equipItems[i].isRetrieved = true;
 
              console.log("Hooray! You got an item");
-
-             // delete that equipment item from off the board
            }
       }
 
@@ -395,12 +401,12 @@ $(() => {
         itemsRuined = 0;
         itemsRetrieved = 0;
 
-        for(let i = 0; i < porgLevels[level]; i++)
+        for(let i = 0; i < porgs.length; i++)
         {
           porgs[i].deletePorg();
         }
 
-        for(let i = 0; i < neededItems[level]; i++)
+        for(let i = 0; i < equipItems.length; i++)
         {
           equipItems[i].deleteEquipItem();
         }
@@ -411,15 +417,23 @@ $(() => {
         // and the porgs
         level++;
 
-        Chewbacca = new Chewie();
+        $('.level').empty();
+        $('.level').append(`<h4>Level: ${level + 1}</h4>`);
 
+        Chewbacca = new Chewie();
+        let porgletCounter = 0;
+        let femPorgCounter = 0;
+
+        // recreate the porgs
         for(let i = 0; i < porgLevels[level]; i++)
         {
+
           console.log(`creating porg ${i}`)
           porgs[i] = new Porg(10);
           console.log(porgs[i]);
         }
 
+        // recreate the equipment
         for(let i = 0; i < neededItems[level]; i++)
         {
           console.log(`creating item ${i}`);
@@ -461,7 +475,16 @@ $(() => {
 
         $('.game-board').hide();
         gameEnded = true;
-      } // End of itemsRuined if statement
+
+        $('.porg-havoc').css('visibility',  'visible');
+        $('.porg-havoc').get(0).play();
+
+        setTimeout(function()
+        {
+          $('.porg-havoc').remove();
+          $('.lose-message').css('visibility', 'visible');
+        }, 9000);
+      } // End of Chewbacca.stressLevel if statement
 
       e.preventDefault();
 
@@ -531,21 +554,18 @@ $(() => {
                   console.log(`${equipItems[i]} is nullified`);
                 }
 
-                $('.game-board').hide();
+                $('.game-board').remove();
                 gameEnded = true;
 
                 $('.porg-havoc').css('visibility',  'visible');
-
-                // $('.porg-havoc').play();
                 $('.porg-havoc').get(0).play();
 
-                // $(document).append(`<div class="porg-havoc">
-                //   <iframe title='YouTube video player' type=\"text/html\" width='640'
-                //   height='390' src='img/Porg-Havoc.mp4'
-                //   frameborder='0' allowFullScreen>
-                //   </iframe></div>`);
+                setTimeout(function()
+                {
+                  $('.porg-havoc').remove();
+                  $('.lose-message').css('visibility', 'visible');
+                }, 9000);
 
-                // $('.lose-message').css('visibility', 'visible');
 
               } // End of itemsRuined if statement
 

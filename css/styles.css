@@ -35,19 +35,32 @@ section {
   visibility: hidden;
   text-align: center;
   margin-left: 25%;
-
 }
 
-.score-board,
+.porg-audio {
+  visibility: hidden;
+  text-align: center;
+  margin-left: 25%;
+}
+
+/* .score-board,
 .level,
 .stress-level,
 .ruinedItems,
-.retrievedItems {
+.retrievedItems */
+
+.dash-board
+{
   background-color: black;
-  width: 40%;
-  margin-left: 30%;
+  width: 50%;
+  margin-left: 25%;
   color: yellow;
   text-align: center;
+}
+
+.dash-board h4 {
+  display: inline-block;
+  margin-left: 15px;
 }
 
 .game-square {
